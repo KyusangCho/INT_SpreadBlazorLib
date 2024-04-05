@@ -1,0 +1,66 @@
+﻿@page "/"
+
+@using INT_SpreadBlazorLib
+
+<table>
+    <tr>
+        <td>
+            <label>Sheet Index</label>
+            <input @bind-value="@SheetIndex" />
+        </td>
+        <td>
+            <label>Row Index</label>
+            <input @bind-value="@Row" />
+        </td>
+        <td>
+            <label>Column Index</label>
+            <input @bind-value="@Column" />
+        </td>
+        <td>
+            <lable>Value</lable>
+            <input @bind-value="@Value" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <button @onclick="doSomething">Update Text</button>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input type="file" @ref="inputFileEle" />
+        </td>
+        <td>
+            <button @onclick="ImportExcel">Import File</button>
+        </td>
+    </tr>
+</table>
+<br />
+<SpreadCafe SheetCount="3" HostStyle="@HostStyle" @ref="ss" />
+
+
+@code {
+    private SpreadCafe ss;
+
+    private ElementReference inputFileEle;
+
+    public int SheetIndex { get; set; } = 0;
+
+    public int Row { get; set; } = 0;
+
+    public int Column { get; set; } = 0;
+
+    public string Value { get; set; } = "";
+
+    private string HostStyle { get; set; } = "width:90wh;height:70vh;border: 1px solid darkgray";
+
+    private void doSomething()
+    {
+        ss.setValue(SheetIndex, Row, Column, Value);
+    }
+
+    private void ImportExcel()
+    {
+        ss.OpenExcel(inputFileEle);
+    }
+}
